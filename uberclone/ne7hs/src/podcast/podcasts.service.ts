@@ -23,126 +23,126 @@ export class PodcastsService {
     return true;
   }
 
-  getPodcast(id: string): { podcast: Podcast | null; err: string | null } {
+  getPodcast(id: string): Podcast {
     const foundPodcasts = this.podcasts.filter((podcast) => podcast.id === +id);
     if (foundPodcasts.length === 0) {
-      return { podcast: null, err: 'Podcast not found.' };
+      return null;
     }
     if (foundPodcasts.length === 1) {
-      return { podcast: foundPodcasts[0], err: null };
+      return foundPodcasts[0];
     }
     if (foundPodcasts.length > 2) {
-      return { podcast: null, err: 'More than one items with same id.' };
+      return null;
     }
   }
 
-  deletePodcast(id: string): { err: string | null } {
+  deletePodcast(id: string): boolean {
     this.podcasts = this.podcasts.filter((p) => p.id !== +id);
-    return { err: null };
+    return true;
   }
 
   updatePodcast(
     id: string,
     updatePodcastDto: UpdatePodcastDto,
-  ): { err: string | null } {
-    const { podcast, err: findErr } = this.getPodcast(id);
-    if (findErr) {
-      return { err: findErr };
+  ): boolean {
+    const podcast = this.getPodcast(id);
+    if (!podcast) {
+      return false;
     }
-    const { err: deleteErr } = this.deletePodcast(id);
-    if (deleteErr) {
-      return { err: deleteErr };
+    const deleted = this.deletePodcast(id);
+    if (!deleted) {
+      return false;
     }
     this.podcasts.push({ ...podcast, ...updatePodcastDto });
-    return { err: null };
+    return true;
   }
 
   getEpisodes(
     podcastId: string,
-  ): { episodes: Episode[] | null; err: string | null } {
-    const { podcast, err } = this.getPodcast(podcastId);
-    if (err) {
-      return { episodes: null, err };
+  ): Episode[] {
+    const podcast = this.getPodcast(podcastId);
+    if (!podcast) {
+      return null;
     }
-    return { episodes: podcast.episodes, err: null };
+    return podcast.episodes;
   }
 
   createEpisode(
     podcastId: string,
     { title, category }: CreateEpisodeDto,
-  ): { episodeId: number | null; err: string | null } {
-    const { podcast, err: findErr } = this.getPodcast(podcastId);
-    if (findErr) {
-      return { episodeId: null, err: findErr };
+  ): boolean {
+    const podcast = this.getPodcast(podcastId);
+    if (!podcast) {
+      return false;
     }
     const episodeId = Date.now();
     const newEpisode: Episode = { id: episodeId, title, category, rating: 0 };
-    const { err } = this.updatePodcast(podcastId, {
+    const updated = this.updatePodcast(podcastId, {
       ...podcast,
       episodes: [...podcast.episodes, newEpisode],
     });
-    if (err) {
-      return { episodeId: null, err };
+    if (!updated) {
+      return false;
     }
-    return { episodeId, err: null };
+    return true;
   }
 
-  deleteEpisode(podcastId: string, episodeId: string): { err: string | null } {
-    const { podcast, err: findErr } = this.getPodcast(podcastId);
-    if (findErr) {
-      return { err: findErr };
+  deleteEpisode(podcastId: string, episodeId: string): boolean {
+    const podcast = this.getPodcast(podcastId);
+    if (!podcast) {
+      return false;
     }
     // 이 부분 이상하게 optional 한 프로퍼티까지 필수로 요구하면서 에러가 나서 어쩔 수 없이 spread operator 사용. 왜 그런지 모르겠음.
     // 분명히 updatePodcastDto 의 값들은 optional 인 상태인데...
-    const { err } = this.updatePodcast(podcastId, {
+    const updated = this.updatePodcast(podcastId, {
       ...podcast,
       episodes: podcast.episodes.filter((episode) => episode.id !== +episodeId),
     });
-    if (err) {
-      return { err };
+    if (!updated) {
+      return false;
     }
-    return { err: null };
+    return true;
   }
 
   findEpisode(
     podcastId: string,
     episodeId: string,
-  ): { episode: Episode | null; err: string | null } {
-    const { episodes, err: findErr } = this.getEpisodes(podcastId);
-    if (findErr) {
-      return { episode: null, err: findErr };
+  ): Episode {
+    const episodes = this.getEpisodes(podcastId);
+    if (!episodes) {
+      return null;
     }
     const episode = episodes.find((episode) => episode.id === +episodeId);
     if (!episode) {
-      return { episode: null, err: 'Episode not found' };
+      return null;
     }
-    return { episode, err: null };
+    return episode;
   }
 
   updateEpisode(
     podcastId: string,
     episodeId: string,
     updateEpisodeDto: UpdateEpisodeDto,
-  ): { err: string | null } {
-    const { episode, err: findEpisodeErr } = this.findEpisode(
+  ): boolean {
+    const episode = this.findEpisode(
       podcastId,
       episodeId,
     );
-    if (findEpisodeErr) {
-      return { err: findEpisodeErr };
+    if (!episode) {
+      return false;
     }
-    const { err: deleteErr } = this.deleteEpisode(podcastId, episodeId);
-    if (deleteErr) {
-      return { err: deleteErr };
+    const deleted = this.deleteEpisode(podcastId, episodeId);
+    if (!deleted) {
+      return false;
     }
-    const { podcast, err: fundPodcastErr } = this.getPodcast(podcastId);
-    if (fundPodcastErr) {
-      return { err: fundPodcastErr };
+    const podcast = this.getPodcast(podcastId);
+    if (!podcast) {
+      return false;
     }
     this.updatePodcast(podcastId, {
       ...podcast,
       episodes: [...podcast.episodes, { ...episode, ...updateEpisodeDto }],
     });
-    return { err: null };
+    return true;
   }
 }

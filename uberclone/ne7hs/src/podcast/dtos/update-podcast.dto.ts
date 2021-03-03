@@ -1,6 +1,7 @@
-import { ArgsType, Field } from '@nestjs/graphql';
+import { ArgsType, Field, InputType } from '@nestjs/graphql';
 import { IsOptional } from 'class-validator';
 import { Episode } from '../entities/episode.entity';
+import { UpdateEpisodeDto } from './update-episode.dto';
 
 // export class UpdatePodcastDto {
 //   readonly title?: string;
