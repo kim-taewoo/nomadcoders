@@ -2,7 +2,11 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { PodcastsModule } from './podcast/podcasts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
+
+console.log(process.env.NODE_ENV);
+console.log(Joi);
 
 @Module({
   imports: [
@@ -15,11 +19,11 @@ import { ConfigModule } from '@nestjs/config';
     GraphQLModule.forRoot({ autoSchemaFile: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: '172.20.224.1',
-      port: 5432,
-      username: 'taewookim',
-      password: '0419',
-      database: 'nuber-eats',
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
       logging: true,
       synchronize: true,
     }),
