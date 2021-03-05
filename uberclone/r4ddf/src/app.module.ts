@@ -4,6 +4,7 @@ import { PodcastsModule } from './podcast/podcasts.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
+import { Podcast } from './podcast/entities/podcast.entity';
 
 @Module({
   imports: [
@@ -30,7 +31,8 @@ import { ConfigModule } from '@nestjs/config';
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
       logging: true,
-      synchronize: true,
+      synchronize: process.env.NODE_ENV !== 'prod',
+      entities: [Podcast]
     }),
   ],
   controllers: [],
