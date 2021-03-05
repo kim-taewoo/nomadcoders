@@ -30,7 +30,7 @@ import { Podcast } from './podcast/entities/podcast.entity';
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      logging: true,
+      logging: process.env.NODE_ENV !== 'prod',
       synchronize: process.env.NODE_ENV !== 'prod',
       entities: [Podcast]
     }),

@@ -19,20 +19,19 @@ import { Repository } from 'typeorm';
 export class PodcastsService {
   constructor(@InjectRepository(Podcast) private readonly podcasts: Repository<Podcast>) {}
 
-  getAllPodcasts(): Promise<Podcast[]> {
+  async getAllPodcasts(): Promise<Podcast[]> {
     return this.podcasts.find();
   }
 
-  // createPodcast({ title, category }: CreatePodcastDto): CoreOutput {
-  //   this.podcasts.push({
-  //     id: this.podcasts.length + 1,
-  //     title,
-  //     category,
-  //     rating: 0,
-  //     episodes: [],
-  //   });
-  //   return { ok: true, error: null };
-  // }
+  async createPodcast({ title, category }: CreatePodcastDto): Promise<CoreOutput> {
+    const newPodcast = this.podcasts.create({title, category})
+    try {
+      await this.podcasts.save(newPodcast);
+      return { ok: true, error: null };
+    } catch (error) {
+      return {ok: false, error: 'Could not create a podcast'}
+    }
+  }
 
   // getPodcast(id: number): PodcastOutput {
   //   const podcast = this.podcasts.find((podcast) => podcast.id === id);
