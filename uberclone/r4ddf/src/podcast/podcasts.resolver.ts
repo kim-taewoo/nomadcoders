@@ -19,56 +19,56 @@ export class PodcastsResolver {
   constructor(private readonly podcastsService: PodcastsService) {}
 
   @Query((returns) => [Podcast])
-  getAllPodcasts() {
+  getAllPodcasts(): Promise<Podcast[]> {
     return this.podcastsService.getAllPodcasts();
   }
 
-  @Mutation((returns) => CoreOutput)
-  createPodcast(@Args('input') createPodcastDto: CreatePodcastDto): CoreOutput {
-    return this.podcastsService.createPodcast(createPodcastDto);
-  }
+//   @Mutation((returns) => CoreOutput)
+//   createPodcast(@Args('input') createPodcastDto: CreatePodcastDto): CoreOutput {
+//     return this.podcastsService.createPodcast(createPodcastDto);
+//   }
 
-  @Query((returns) => PodcastOutput)
-  getPodcast(@Args('input') podcastSearchInput: PodcastSearchInput) {
-    return this.podcastsService.getPodcast(podcastSearchInput.id);
-  }
+//   @Query((returns) => PodcastOutput)
+//   getPodcast(@Args('input') podcastSearchInput: PodcastSearchInput) {
+//     return this.podcastsService.getPodcast(podcastSearchInput.id);
+//   }
 
-  @Mutation((returns) => CoreOutput)
-  deletePodcast(@Args('input') podcastSearchInput: PodcastSearchInput) {
-    return this.podcastsService.deletePodcast(podcastSearchInput.id);
-  }
+//   @Mutation((returns) => CoreOutput)
+//   deletePodcast(@Args('input') podcastSearchInput: PodcastSearchInput) {
+//     return this.podcastsService.deletePodcast(podcastSearchInput.id);
+//   }
 
-  @Mutation((returns) => CoreOutput)
-  updatePodcast(@Args('input') updatePodcastDto: UpdatePodcastDto): CoreOutput {
-    return this.podcastsService.updatePodcast(updatePodcastDto);
-  }
-}
+//   @Mutation((returns) => CoreOutput)
+//   updatePodcast(@Args('input') updatePodcastDto: UpdatePodcastDto): CoreOutput {
+//     return this.podcastsService.updatePodcast(updatePodcastDto);
+//   }
+// }
 
-@Resolver((of) => Episode)
-export class EpisodeResolver {
-  constructor(private readonly podcastService: PodcastsService) {}
+// @Resolver((of) => Episode)
+// export class EpisodeResolver {
+//   constructor(private readonly podcastService: PodcastsService) {}
 
-  @Query((returns) => EpisodesOutput)
-  getEpisodes(
-    @Args('input') podcastSearchInput: PodcastSearchInput,
-  ): EpisodesOutput {
-    return this.podcastService.getEpisodes(podcastSearchInput.id);
-  }
+//   @Query((returns) => EpisodesOutput)
+//   getEpisodes(
+//     @Args('input') podcastSearchInput: PodcastSearchInput,
+//   ): EpisodesOutput {
+//     return this.podcastService.getEpisodes(podcastSearchInput.id);
+//   }
 
-  @Mutation((returns) => CoreOutput)
-  createEpisode(@Args('input') createEpisodeDto: CreateEpisodeDto): CoreOutput {
-    return this.podcastService.createEpisode(createEpisodeDto);
-  }
+//   @Mutation((returns) => CoreOutput)
+//   createEpisode(@Args('input') createEpisodeDto: CreateEpisodeDto): CoreOutput {
+//     return this.podcastService.createEpisode(createEpisodeDto);
+//   }
 
-  @Mutation((returns) => CoreOutput)
-  updateEpisode(@Args('input') updateEpisodeDto: UpdateEpisodeDto) {
-    return this.podcastService.updateEpisode(updateEpisodeDto);
-  }
+//   @Mutation((returns) => CoreOutput)
+//   updateEpisode(@Args('input') updateEpisodeDto: UpdateEpisodeDto) {
+//     return this.podcastService.updateEpisode(updateEpisodeDto);
+//   }
 
-  @Mutation((returns) => CoreOutput)
-  deleteEpisode(
-    @Args('input') episodesSearchInput: EpisodesSearchInput,
-  ): CoreOutput {
-    return this.podcastService.deleteEpisode(episodesSearchInput);
-  }
+//   @Mutation((returns) => CoreOutput)
+//   deleteEpisode(
+//     @Args('input') episodesSearchInput: EpisodesSearchInput,
+//   ): CoreOutput {
+//     return this.podcastService.deleteEpisode(episodesSearchInput);
+//   }
 }
