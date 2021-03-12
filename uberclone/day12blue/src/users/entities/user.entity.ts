@@ -11,8 +11,8 @@ import * as bcrypt from 'bcrypt';
 import { InternalServerErrorException } from '@nestjs/common';
 
 export enum UserRole {
-  Host = 'Host',
-  Listener = 'Listener',
+  Host,
+  Listener
 }
 
 registerEnumType(UserRole, { name: 'UserRole' });
