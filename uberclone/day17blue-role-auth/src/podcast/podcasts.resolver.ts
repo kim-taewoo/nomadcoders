@@ -20,6 +20,7 @@ import {
   CreateEpisodeOutput,
 } from './dtos/create-episode.dto';
 import { UpdateEpisodeInput } from './dtos/update-episode.dto';
+import { Role } from 'src/auth/role.decorator';
 
 @Resolver(of => Podcast)
 export class PodcastsResolver {
@@ -31,6 +32,7 @@ export class PodcastsResolver {
   }
 
   @Mutation(returns => CreatePodcastOutput)
+  @Role(['Host'])
   createPodcast(
     @Args('input') createPodcastInput: CreatePodcastInput,
   ): Promise<CreatePodcastOutput> {
