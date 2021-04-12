@@ -35,7 +35,7 @@ import { Restaurant } from './restaurants/entities/restaurant.entity';
     }),
     GraphQLModule.forRoot({
       // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
-      autoSchemaFile: true,
+      autoSchemaFile: true, // use in memory
     }),
     RestaurantsModule,
   ],
