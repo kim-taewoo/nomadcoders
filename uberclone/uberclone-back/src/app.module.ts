@@ -6,6 +6,11 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entities/user.entity';
+import { JwtModule } from './jwt/jwt.module';
+
+// .forRoot 같은 메서드 없이 이름만 존재하는 모듈을 static module 이라고 하고,
+// forRoot 과 같은 걸로 설정을 따로 하는 모듈을 dynamic module 이라고 한다.
+// dynamic module 도 결국에는 static module 으로 바뀌게 되지만, 그 전에 설정이 가능한 것.
 @Module({
   // I don't know why, but ConfigModule should come first to check env properly.
   imports: [
@@ -20,6 +25,7 @@ import { User } from './users/entities/user.entity';
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
+        SECRET_KEY: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRoot({
@@ -39,6 +45,7 @@ import { User } from './users/entities/user.entity';
       autoSchemaFile: true, // use in memory
     }),
     // RestaurantsModule, // 안 쓰는 모듈을 지우기. 그렇다고 모든 모듈을 지우면, graphql 쿼리가 하나도 없는 상태가 되어서 에러가 뜬다.
+    JwtModule.forRoot(),
     UsersModule,
     CommonModule,
   ],
