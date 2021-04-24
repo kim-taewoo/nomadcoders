@@ -6,6 +6,6 @@ import { RestaurantResolver } from './restraurants.resolver';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Restaurant])],
-  providers: [RestaurantResolver, RestaurantService]
+  providers: [RestaurantResolver, RestaurantService],
 })
 export class RestaurantsModule {}

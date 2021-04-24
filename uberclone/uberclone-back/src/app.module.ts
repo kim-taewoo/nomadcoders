@@ -3,8 +3,9 @@ import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RestaurantsModule } from './restaurants/restaurants.module';
-import { Restaurant } from './restaurants/entities/restaurant.entity';
+import { UsersModule } from './users/users.module';
+import { CommonModule } from './common/common.module';
+import { User } from './users/entities/user.entity';
 @Module({
   // I don't know why, but ConfigModule should come first to check env properly.
   imports: [
@@ -31,13 +32,15 @@ import { Restaurant } from './restaurants/entities/restaurant.entity';
       database: process.env.DB_NAME,
       synchronize: process.env.NODE_ENV !== 'prod',
       logging: true,
-      entities: [Restaurant],
+      entities: [User],
     }),
     GraphQLModule.forRoot({
       // autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       autoSchemaFile: true, // use in memory
     }),
-    RestaurantsModule,
+    // RestaurantsModule, // 안 쓰는 모듈을 지우기. 그렇다고 모든 모듈을 지우면, graphql 쿼리가 하나도 없는 상태가 되어서 에러가 뜬다.
+    UsersModule,
+    CommonModule,
   ],
   controllers: [],
   providers: [],

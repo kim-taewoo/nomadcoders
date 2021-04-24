@@ -16,12 +16,14 @@ export class RestaurantService {
     return this.restaurants.find();
   }
 
-  createRestaurant(createRestaurantDto: CreateRestaurantDto): Promise<Restaurant> {
+  createRestaurant(
+    createRestaurantDto: CreateRestaurantDto,
+  ): Promise<Restaurant> {
     const newRestaurant = this.restaurants.create(createRestaurantDto);
     return this.restaurants.save(newRestaurant);
   }
-  
-  updateRestaurant({id, data}: UpdateRestaurantDto) {
-    return this.restaurants.update(id, {...data})
+
+  updateRestaurant({ id, data }: UpdateRestaurantDto) {
+    return this.restaurants.update(id, { ...data });
   }
 }
