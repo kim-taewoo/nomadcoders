@@ -25,7 +25,7 @@ import { JwtModule } from './jwt/jwt.module';
         DB_USERNAME: Joi.string().required(),
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
-        SECRET_KEY: Joi.string().required(),
+        PRIVATE_KEY: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRoot({
@@ -45,7 +45,9 @@ import { JwtModule } from './jwt/jwt.module';
       autoSchemaFile: true, // use in memory
     }),
     // RestaurantsModule, // 안 쓰는 모듈을 지우기. 그렇다고 모든 모듈을 지우면, graphql 쿼리가 하나도 없는 상태가 되어서 에러가 뜬다.
-    JwtModule.forRoot(),
+    JwtModule.forRoot({
+      privateKey: process.env.PRIVATE_KEY,
+    }),
     UsersModule,
     CommonModule,
   ],
