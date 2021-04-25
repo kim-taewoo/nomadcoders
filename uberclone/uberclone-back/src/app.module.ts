@@ -1,4 +1,9 @@
-import { Module } from '@nestjs/common';
+import {
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  RequestMethod,
+} from '@nestjs/common';
 import * as Joi from 'joi';
 import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
@@ -7,6 +12,7 @@ import { UsersModule } from './users/users.module';
 import { CommonModule } from './common/common.module';
 import { User } from './users/entities/user.entity';
 import { JwtModule } from './jwt/jwt.module';
+import { jwtMiddleware } from './jwt/jwt.middleware';
 
 // .forRoot 같은 메서드 없이 이름만 존재하는 모듈을 static module 이라고 하고,
 // forRoot 과 같은 걸로 설정을 따로 하는 모듈을 dynamic module 이라고 한다.
@@ -54,4 +60,13 @@ import { JwtModule } from './jwt/jwt.module';
   controllers: [],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  // 아니면 이 Middleware 관련 설정을 main.ts 파일에서 app.use(jwtMiddleware)
+  // 같이 전체 앱에 한 번에 적용할 수도 있다. 물론 세부설정하기엔 consumer 쓰는 게 좋겠지.
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(jwtMiddleware).forRoutes({
+      path: '/graphql',
+      method: RequestMethod.ALL,
+    });
+  }
+}
