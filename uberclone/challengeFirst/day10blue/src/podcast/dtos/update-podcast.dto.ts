@@ -8,6 +8,4 @@ export class UpdatePodcastPayload extends PartialType(
 
 @InputType()
 export class UpdatePodcastInput extends PickType(Podcast, ['id'], InputType) {
-  @Field(type => UpdatePodcastPayload)
-  payload: UpdatePodcastPayload;
 }

@@ -1,4 +1,4 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, ObjectType } from '@nestjs/graphql';
 import { Episode } from '../entities/episode.entity';
 import { CoreOutput } from './output.dto';
 
@@ -15,6 +15,6 @@ export class FindEpisodeOutput extends CoreOutput {
 
 @ObjectType()
 export class CreateEpisodeOutput extends CoreOutput {
-  @Field((type) => Int, { nullable: true })
-  id?: number;
+  @Field((type) => String, { nullable: true })
+  id?: string;
 }

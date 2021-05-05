@@ -31,21 +31,21 @@ export class PodcastsService {
   }
 
   createPodcast({ title, category }: CreatePodcastInput): CreatePodcastOutput {
-    const id = Date.now();
+    const id = String(Date.now());
     this.podcasts.push({ id, title, category, rating: 0, episodes: [] });
     return { id, ok: true, err: null };
   }
 
-  getPodcast(id: number): GetPodcastOutput {
-    const podcast = this.podcasts.find((podcast) => podcast.id === +id);
+  getPodcast(id: string): GetPodcastOutput {
+    const podcast = this.podcasts.find((podcast) => podcast.id === id);
     if (!podcast) {
       return { ok: false, err: 'No Podcast with the ID' };
     }
     return { podcast, ok: true, err: null };
   }
 
-  deletePodcast(id: number): CoreOutput {
-    this.podcasts = this.podcasts.filter((p) => p.id !== +id);
+  deletePodcast(id: string): CoreOutput {
+    this.podcasts = this.podcasts.filter((p) => p.id !== id);
     return { err: null, ok: true };
   }
 
@@ -62,7 +62,7 @@ export class PodcastsService {
     return { ok: true, err: null };
   }
 
-  getEpisodes(podcastId: number): GetEpisodesOutput {
+  getEpisodes(podcastId: string): GetEpisodesOutput {
     const { podcast, err } = this.getPodcast(podcastId);
     if (err) {
       return { episodes: null, ok: false, err };
@@ -79,7 +79,7 @@ export class PodcastsService {
     if (findErr) {
       return { ok: false, err: findErr };
     }
-    const episodeId = Date.now();
+    const episodeId = String(Date.now());
     const newEpisode: Episode = { id: episodeId, title, category, rating: 0 };
     const { err } = this.updatePodcast({
       id: podcast.id,
@@ -122,7 +122,7 @@ export class PodcastsService {
     if (findErr) {
       return { ok: false, err: findErr };
     }
-    const episode = episodes.find((episode) => episode.id === +episodeId);
+    const episode = episodes.find((episode) => episode.id === episodeId);
     if (!episode) {
       return { ok: false, err: 'Episode not found' };
     }

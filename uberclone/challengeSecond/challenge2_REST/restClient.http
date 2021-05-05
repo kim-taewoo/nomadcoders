@@ -53,4 +53,6 @@ Content-Type: application/json
   "length": "1min",
   "category": "test"
 }
+
 ### DELETE /podcasts/:id/episodes/:episodeId
+DELETE http://localhost:3000/podcasts/1/episodes/1 HTTP/1.1

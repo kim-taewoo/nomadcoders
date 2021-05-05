@@ -1,4 +1,4 @@
-import { Field, InputType, Int, PartialType, PickType } from '@nestjs/graphql';
+import { Field, InputType, PartialType, PickType } from '@nestjs/graphql';
 import { Episode } from '../entities/episode.entity';
 
 @InputType()
@@ -7,17 +7,17 @@ export class CreateEpisodeInput extends PickType(
   ['title', 'category'],
   InputType,
 ) {
-  @Field((type) => Int)
-  podcastId: number;
+  @Field((type) => String)
+  podcastId: string;
 }
 
 @InputType()
 export class EpisodesSearchInput {
-  @Field((type) => Int)
-  podcastId: number;
+  @Field((type) => String)
+  podcastId: string;
 
-  @Field((type) => Int)
-  episodeId: number;
+  @Field((type) => String)
+  episodeId: string;
 }
 
 @InputType()
