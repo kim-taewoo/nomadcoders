@@ -1,4 +1,4 @@
-import { ArgsType, Field, ObjectType, InputType } from '@nestjs/graphql';
+import { Field, ObjectType, InputType } from '@nestjs/graphql';
 import { CoreOutput } from './output.dto';
 import { Podcast } from '../entities/podcast.entity';
 import { IsNumber } from 'class-validator';
@@ -9,6 +9,12 @@ export class PodcastSearchInput {
   @Field((type) => Number)
   @IsNumber()
   id: number;
+}
+
+@ObjectType()
+export class GetAllPodcastsOutput extends CoreOutput {
+  @Field((type) => [Podcast], { nullable: true })
+  podcasts?: Podcast[];
 }
 
 @ObjectType()
@@ -32,4 +38,8 @@ export class EpisodesSearchInput {
   @Field((type) => Number)
   @IsNumber()
   episodeId: number;
+}
+
+export class GetEpisodeOutput extends CoreOutput {
+  episode?: Episode;
 }
